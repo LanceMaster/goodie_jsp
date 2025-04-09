@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- /webapp/ex03_parameter/client.html -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<ul>
+	<li><a href="http://localhost:8080/servlet_study/GetServlet">이동하기</a>
+	<li><a href="/servlet_study/GetServlet">이동하기2</a>
+	<!-- url에서 /로 시작하면 톰캣은 ContextPath로 인식 /로 시작할거면(project명) -->	
+	<li><a href="/GetServlet">이동하기3(오류)</a>
+	<!-- http://localhost:8080/servlet_study/ex03_parameter/GetServlet -->
+	<!-- ex03_parameter를 지워야한다. urlmapping html 경로에 따라 실행여부가 달라진다.  -->
+	<li><a href="GetServlet">이동하기4(오류남)</a>
+	
+</ul>
+	<div>
+		<a href="/servlet_study/GetServlet?model=냉장고&price=200">파라미터전송</a>
+	</div>
+	<div>
+		<form action="/servlet_study/GetServlet">
+			<label for ="model">모델명</label>
+			<!--  name 따라 getparameter로 받아가진다. -->
+			<input type="text" id="model" name="model" placeholder="모델명">
+			<label for ="price">가격</label>
+			<input type="text" id="price" name="price" placeholder="가격">
+			<button type="submit">전송</button>
+		</form>
+	</div>
+	
+	<hr>
+	<h3>POST 방식으로 전송</h3>
+	<div>
+		<!-- 파라미터값이 안보인다 get방식은 url옆에 붙여서하는데 post같은경우는 body에 숨어서 보내진다. -->
+		<form action="/servlet_study/PostServlet" method="post">
+			<label for ="model">모델명</label>
+			<!--  name 따라 getparameter로 받아가진다. -->
+			<input type="text" id="model" name="model" placeholder="모델명">
+			<label for ="price">가격</label>
+			<input type="text" id="price" name="price" placeholder="가격">
+			<button type="submit">전송</button>
+		</form>
+	</div>
+</body>
+</html>
