@@ -39,31 +39,21 @@ member mem = new MemberDAO().selectOne(id);
 <title>수정 전 화면 조회</title>
 </head>
 <body>
-
-
-<script type="text/javascript">
-    function win_upload() {
-        let op = "width=500,height=500,left=50,top=150";
-        open("pictureForm.jsp", "", op);
-    }
-</script>
-    <form action="update.jsp" method="post" name="f" onsubmit="return input_check(this)">
-    <!-- 기존값을 갖고오기 위해서 mem.getPicture()로 갖고와야한다.  -->
-                <input type="hidden" name="picture" value="<%=mem.getPicture() %>">
+    <form action="update.jsp" method="post"
+        onsubmit="return input_check(this)" name="f">
+        <input type="hidden" name="picture"
+            value="<%=mem.getPicture()%>">
         <table>
             <caption>회원정보 수정</caption>
             <tr>
-                <td rowspan="4" valign="bottom">
-                <img src="picture/<%=mem.getPicture()%>" width="100"
-                    height="120" id="pic"> 
-                    <br> <font
-                    size="1"><a href="javascript:win_upload()">사진수정
-                    </a></font></td>
+                <td rowspan="4" valign="bottom"><img
+                    src="picture/<%=mem.getPicture()%>" width="100"
+                    height="120" id="pic"><br> <font size="1"><a
+                        href="javascript:win_upload()">사진수정</a></font></td>
                 <th>아이디</th>
-                <%-- readOnly로 되어있음
-                disabled="disabled" : 파라미터로 전송안됨
-                readOnly : 값 수정불가 파라미터 전송가능
-                 --%>
+                <%-- disabled="disabled" : 파라미터로 전송 안됨
+     readonly : 값 수정 불가. 파라미터 전송 가능 
+--%>
                 <td><input type="text" value="<%=mem.getId()%>"
                     name="id" readonly></td>
             </tr>
@@ -79,8 +69,8 @@ member mem = new MemberDAO().selectOne(id);
             <tr>
                 <th>성별</th>
                 <td><input type="radio" name="gender" value="1"
-                    <%=mem.getGender() == 1 ? "checked" : ""%>>남
-                    <input type="radio" name="gender" value="2"
+                    <%=mem.getGender() == 1 ? "checked" : ""%>>남 <input
+                    type="radio" name="gender" value="2"
                     <%=mem.getGender() == 2 ? "checked" : ""%>>여</td>
             </tr>
             <tr>
@@ -90,23 +80,34 @@ member mem = new MemberDAO().selectOne(id);
             </tr>
             <tr>
                 <th>이메일</th>
-                <td colspan="2"><input type="text" name="tel"
+                <td colspan="2"><input type="text" name="email"
                     value="<%=mem.getEmail()%>"></td>
             </tr>
             <tr>
-                <td colspan="3"><button>회원수정</button> <%
- if (id.equals(login)) {
- %>
+                <td colspan="3"><button>회원수정</button> <% if(id.equals(login)) {%>
                     <button type="button" onclick="win_passchg()">비밀번호수정</button>
-                    <%
-                    }
-                    %></td>
+                    <% }  %></td>
             </tr>
         </table>
     </form>
+    <script type="text/javascript">
+   function  inputcheck(f) {
+       if(f.pass.value == "") {
+           alert("비밀번호를 입력하세요");
+           f.pass.focus();
+           return false;
+       }
+   }   
+   function win_passchg() {
+      var op = "width=500, height=250, left=50,top=150";
+      open("passwordForm.jsp","",op);
+   }
+   function win_upload(){
+       var op = "width=500,height=150,left=50, top=150";
+       open("pictureForm.jsp","",op);
+   }
+</script>
+
 </body>
 </html>
-<%
-}
-%>
-
+<% } %>

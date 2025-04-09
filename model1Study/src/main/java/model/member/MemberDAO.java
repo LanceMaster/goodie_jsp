@@ -178,8 +178,8 @@ public class MemberDAO {
 		return null;
 
 	}
-	
-	public String pwSearch(String id, String email , String tel) {
+
+	public String pwSearch(String id, String email, String tel) {
 		Connection conn = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
 		String sql = "SELECT pass FROM `member` AS M WHERE M.id = ? AND M.email = ? AND M.tel = ?";
@@ -200,6 +200,27 @@ public class MemberDAO {
 		}
 		return null;
 
+	}
+
+	public boolean updatePass(String id, String old_password, String new_password) {
+
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE bigdb.`member` SET pass = ? WHERE id = ? AND pass = ? ";
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, new_password);
+			pstmt.setString(2, id);
+			pstmt.setString(3, old_password);
+			return pstmt.executeUpdate() > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, pstmt, rs);
+		}
+		return false;
 	}
 
 }

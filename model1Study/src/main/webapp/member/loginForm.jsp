@@ -7,7 +7,6 @@
 <title>로그인</title>
 
 <!-- 상대경로 대신 절대경로 또는 올바른 상대경로 확인 -->
-<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
