@@ -13,7 +13,7 @@
         숫자:<input type="text" name="num" value="${param.num}"> <input
             type="submit" value="숫자까지의 합 구하기">
     </form>
-
+    <%-- param.num을 넣으도 된다 --%>
     <c:forEach var="i" begin="1" end="${param.num}">
         <c:set var="sum" value="${sum+i}">
         </c:set>

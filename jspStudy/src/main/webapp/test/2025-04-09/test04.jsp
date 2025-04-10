@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,12 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<!-- 해당 속성의 값이 나온다.  -->
-<h2>${param.name}</h2> 
-<%-- <h2><%= session.getAttribute("name") %></h2> 
- --%>
-<h2>${param.age }</h2>
-<h2>${param.gender }</h2>
-<h2>${param.year }</h2>
-</body>
-</html>
+<% request.setCharacterEncoding("UTF-8"); %>
+이름:${param.name}<br>
+나이:${param.age}<br>
+성별:${param.gender == 1?"남":"여" }<br>
+출생년도:${param.year}<br>
+나이:만${2025 - param.year}<br>
+</body></html>

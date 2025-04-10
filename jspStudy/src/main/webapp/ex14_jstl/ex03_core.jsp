@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -74,7 +76,33 @@
             ${i} * ${j} = ${i*j}<br>
         </c:forEach>
     </c:forEach>
-
+    <br>
+    
+    <h3>forEach 태그를 이용하여 List 객체의 요소 출력하기</h3>
+   
+    <%
+    List<Integer> testList = new ArrayList<>();
+    for(int i = 1; i <= 10; i++) {
+     testList.add(i * 10);   
+    }
+    pageContext.setAttribute("testlist", testList);
+    %>
+    
+    <%-- jstl로 출력하기  --%>
+    <%-- 개선된 for문이랑 굉장히 비슷함 a는 리스트의 값들 저장 items는 list 지정 varStatus는 index --%>
+    <c:forEach var = "a" items="${testlist }" varStatus="s">
+        <h5>${s.index }:${a } &nbsp;&nbsp;</h5>
+    
+    </c:forEach>
+    
+    <%-- list를 두줄로 출력하기? --%>
+    <c:forEach var="var" items="${testlist }" varStatus="s">
+    ${s.index } : ${var}
+    <c:if test="${s.index == 5}">
+    <br>
+    </c:if>
+    
+    </c:forEach>
 </body>
 
 
