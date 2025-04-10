@@ -13,7 +13,7 @@
 --%>
 
 <%
-request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");  
 member mem = new member();
 mem.setId(request.getParameter("id"));
 mem.setName(request.getParameter("name"));

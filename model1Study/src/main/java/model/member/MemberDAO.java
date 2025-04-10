@@ -223,4 +223,36 @@ public class MemberDAO {
 		return false;
 	}
 
+	public List<member> searchList(String searchType, String searchValue) {
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<member> list = new ArrayList<>();
+		
+		String sql = "select * from member where " + searchType + " like ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchValue + "%");
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				member mem = new member();
+				mem.setId(rs.getString("id"));
+				mem.setPass(rs.getString("pass"));
+				mem.setName(rs.getString("name"));
+				mem.setGender(rs.getInt("gender"));
+				mem.setTel(rs.getString("tel"));
+				mem.setEmail(rs.getString("email"));
+				mem.setPicture(rs.getString("picture"));
+				list.add(mem);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, pstmt, rs);
+		}
+		return null;
+	}
+
 }

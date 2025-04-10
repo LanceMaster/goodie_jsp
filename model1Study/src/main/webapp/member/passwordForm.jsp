@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../css/main.css">
+
 </head>
 <body>
     <form action="password.jsp" method="post" name="f"
@@ -32,10 +34,8 @@
                     required /></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit"
-                    value="비밀번호 변경" /> <input type="reset" value="취소" />
-                    <input type="button" value="뒤로가기"
-                    onclick="history.back()" /></td>
+                <td colspan="2"><input type="submit" class="button"
+                    value="비밀번호 변경" /> 
             </tr>
         </table>
 
