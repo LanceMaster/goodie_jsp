@@ -2,7 +2,7 @@
 goodie academy jsp_study
 
 # JSP Study Project
-2024-04-09 업데이트
+2024-04-10 업데이트
 
 ## 프로젝트 개요
 이 프로젝트는 JSP와 JSTL을 활용한 웹 애플리케이션 개발 학습을 위한 프로젝트입니다. 

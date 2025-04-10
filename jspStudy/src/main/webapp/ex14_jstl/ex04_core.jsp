@@ -69,5 +69,8 @@
         arr[${stat.index}] = ${a }
     </c:forEach>
     
+    
+    
+    
 </body>
 </html>
