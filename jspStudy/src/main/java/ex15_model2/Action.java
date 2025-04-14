@@ -9,5 +9,10 @@ public class Action {
 		request.setAttribute("hello", "HELLO WORLD");
 		return new ActionForward(false, "ex15_model2/hello.jsp");
 	}
+	
+	public ActionForward loginForm(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("id", "admin");
+		return new ActionForward(false, "ex15_model2/loginForm.jsp");
+	}
 
 }

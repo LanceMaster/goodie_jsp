@@ -38,6 +38,7 @@
     		// 비밀번호 일치
     		// 세션에 로그인 정보 등록
     		session.setAttribute("login", id);
+            se
             msg = mem.getName() +"님이 로그인 하셨습니다.";
     		url = "main.jsp";
     	} else if (pass.equals("")) {

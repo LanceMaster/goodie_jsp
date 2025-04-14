@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.Session;
-
 public class MemberDAO {
 
 	public boolean insertMember(member mem) {
@@ -19,7 +17,7 @@ public class MemberDAO {
 		String sql = "insert into member (id,pass,name,gender,tel,email,picture)" + " values(?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
-//			mem.getid() : join.jsp에서 아이디로 입력된 값
+			// mem.getid() : join.jsp에서 아이디로 입력된 값
 			pstmt.setString(1, mem.getId());
 			// mem.getpass() : join.jsp에서 비밀번호로 입력된 값
 			pstmt.setString(2, mem.getPass());
@@ -41,13 +39,13 @@ public class MemberDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-//			true로 해도 finally가 실행이 된다.
+			// true로 해도 finally가 실행이 된다.
 		} finally {
-//			pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
-//			그럼 pstmt가 아니라 statement로 닫아도 된다.
+			// pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
+			// 그럼 pstmt가 아니라 statement로 닫아도 된다.
 			DBConnection.close(conn, pstmt, null);
 		}
-//		오류가 날시 false로 리턴 catch에 붙여도 상관없다.
+		// 오류가 날시 false로 리턴 catch에 붙여도 상관없다.
 		return false;
 	}
 
@@ -128,13 +126,13 @@ public class MemberDAO {
 			return pstmt.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
-//			true로 해도 finally가 실행이 된다.
+			// true로 해도 finally가 실행이 된다.
 		} finally {
-//			pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
-//			그럼 pstmt가 아니라 statement로 닫아도 된다.
+			// pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
+			// 그럼 pstmt가 아니라 statement로 닫아도 된다.
 			DBConnection.close(conn, pstmt, null);
 		}
-//		오류가 날시 false로 리턴 catch에 붙여도 상관없다.
+		// 오류가 날시 false로 리턴 catch에 붙여도 상관없다.
 		return false;
 	}
 
@@ -149,13 +147,13 @@ public class MemberDAO {
 			return pstmt.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
-//			true로 해도 finally가 실행이 된다.
+			// true로 해도 finally가 실행이 된다.
 		} finally {
-//			pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
-//			그럼 pstmt가 아니라 statement로 닫아도 된다.
+			// pstmt를 닫고 conn을 닫는다.preparedStatement는 statement의 하위객체
+			// 그럼 pstmt가 아니라 statement로 닫아도 된다.
 			DBConnection.close(conn, pstmt, null);
 		}
-//		오류가 날시 false로 리턴 catch에 붙여도 상관없다.
+		// 오류가 날시 false로 리턴 catch에 붙여도 상관없다.
 		return false;
 	}
 
@@ -230,13 +228,13 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<member> list = new ArrayList<>();
-		
+
 		String sql = "select * from member where " + searchType + " like ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + searchValue + "%");
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				member mem = new member();
 				mem.setId(rs.getString("id"));
@@ -256,36 +254,87 @@ public class MemberDAO {
 		}
 		return null;
 	}
-	
-	public member login(String id , String pass) {
-		
+
+	/**
+	 * Login 관련 DAO
+	 * 
+	 * @param mem
+	 * @return
+	 */
+	public member login(member mem) {
 		Connection conn = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
-		String sql = "select * from member where id=? and pass=?";
 		ResultSet rs = null;
+		String sql = "SELECT * FROM `member` AS M WHERE M.ID = ? AND M.PASS = ?";
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, pass);
+			pstmt.setString(1, mem.getId());
+			pstmt.setString(2, mem.getPass());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				member mem1 = new member();
-				mem1.setId(rs.getString("id"));
-				mem1.setPass(rs.getString("pass"));
-				mem1.setName(rs.getString("name"));
-				mem1.setGender(rs.getInt("gender"));
-				mem1.setTel(rs.getString("tel"));
-				mem1.setEmail(rs.getString("email"));
-				mem1.setPicture(rs.getString("picture"));
-				return mem1;
+				member r_mem = new member();
+				r_mem.setId(rs.getString("id"));
+				r_mem.setPass(rs.getString("pass"));
+				r_mem.setName(rs.getString("name"));
+				r_mem.setGender(Integer.parseInt(rs.getString("gender")));
+				r_mem.setTel(rs.getString("tel"));
+				r_mem.setEmail(rs.getString("email"));
+				r_mem.setPicture(rs.getString("picture"));
+				return r_mem;
 			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		return null;
+
+	}
+
+	/**
+	 * 이메일로 회원정보 조회
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	public List<member> emailList(String[] ids) {
+		// ids : 이메일로 조회할 아이디들
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < ids.length; i++) {
+			sb.append("'" + ids[i] + ((i < ids.length - 1) ? "'," : "'"));
+		}
+		List<member> list = new ArrayList<>();
+		// sb.toString() : 'id1','id2','id3','id4'
+		// sql : SELECT * FROM `member` AS M WHERE M.ID IN ('id1','id2','id3','id4')
+		String sql = "SELECT * FROM `member` AS M WHERE M.ID IN (" + sb.toString() + ")";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				member m = new member();
+				m.setId(rs.getString("id"));
+				m.setName(rs.getString("name"));
+				m.setGender(rs.getInt("gender"));
+				m.setEmail(rs.getString("email"));
+				m.setPicture(rs.getString("picture"));
+				list.add(m);
+			}
+			if (list.size() > 0) {
+				System.out.println(list.size());
+				return list;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			DBConnection.close(conn, pstmt, rs);
 		}
+
 		return null;
-		
 	}
 
 }
